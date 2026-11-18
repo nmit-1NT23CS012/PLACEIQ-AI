@@ -112,3 +112,15 @@ test('rejects API access when the Firestore user is disabled', async () => {
   assert.equal(res.body.error, 'This account has been disabled');
   assert.equal(nextCalled, false);
 });
+
+test('uses the verified Firebase UID instead of a profile document id', async () => {
+  users.set('disabled-user', { role: 'student', disabled: false, id: 'another-user' });
+  const req = { headers: { authorization: 'Bearer test-token' } };
+  const res = response();
+  let nextCalled = false;
+
+  await protect(req, res, () => { nextCalled = true; });
+
+  assert.equal(nextCalled, true);
+  assert.equal(req.user.id, 'disabled-user');
+});

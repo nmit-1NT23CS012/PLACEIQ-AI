@@ -35,7 +35,7 @@ exports.protect = async (req, res, next) => {
       return res.status(403).json({ success: false, error: 'This account has been disabled' });
     }
 
-    req.user = { id: decodedToken.uid, ...userData };
+    req.user = { ...userData, id: decodedToken.uid };
     next();
   } catch (err) {
     console.error('Auth Error:', err);

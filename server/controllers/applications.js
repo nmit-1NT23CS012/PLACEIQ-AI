@@ -69,6 +69,10 @@ exports.updateApplicationStatus = async (req, res) => {
  */
 exports.getApplications = async (req, res) => {
     try {
+      if (!['student', 'tpo', 'admin'].includes(req.user.role)) {
+        return res.status(403).json({ success: false, message: 'Not authorized to view applications' });
+      }
+
       const query = {};
       if (req.user.role === 'student') query.student = req.user.id;
       

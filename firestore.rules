@@ -13,10 +13,11 @@ service cloud.firestore {
       allow create: if request.auth != null
         && request.auth.uid == userId
         && request.resource.data.get('role', '') in ['student', 'recruiter']
-        && !request.resource.data.keys().hasAny(['disabled', 'statusUpdatedAt']);
+        && !request.resource.data.keys().hasAny(['id', 'disabled', 'statusUpdatedAt']);
       allow update: if isActiveUser()
         && request.auth.uid == userId
         && request.resource.data.get('role', '') == resource.data.get('role', '')
+        && request.resource.data.get('id', request.auth.uid) == request.auth.uid
         && request.resource.data.get('disabled', false) == resource.data.get('disabled', false)
         && request.resource.data.get('statusUpdatedAt', null) == resource.data.get('statusUpdatedAt', null);
     }

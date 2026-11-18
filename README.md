@@ -82,7 +82,7 @@ Stop the processes with **Ctrl+C** in the terminal running `npm start`. The opti
 
 ## Docker Compose
 
-The optional Docker Compose setup starts MongoDB, the API, AI service, frontend, and Nginx. Configure Firebase Admin credentials for the backend before using authenticated features. The Compose MongoDB volume persists data locally.
+The optional Docker Compose setup starts MongoDB, the API, AI service, frontend, and Nginx. Configure Firebase Admin credentials for the backend before using authenticated features. The Compose MongoDB volume persists data locally. MongoDB and the HTTP proxy are bound to loopback for local development; this is not a public deployment configuration. Public deployments must terminate TLS at a trusted HTTPS proxy or load balancer before forwarding requests to the app.
 
 ```powershell
 docker compose up --build

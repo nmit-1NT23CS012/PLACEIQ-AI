@@ -8,7 +8,7 @@ router.use(protect);
 
 router.route('/')
     .post(authorize('student'), applyForDrive)
-    .get(getApplications);
+    .get(authorize('student', 'tpo', 'admin'), getApplications);
 
 router.put('/:id', authorize('tpo', 'admin'), updateApplicationStatus);
 
