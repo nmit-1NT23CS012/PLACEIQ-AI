@@ -1,0 +1,38 @@
+# Dependencies and generated output
+node_modules/
+**/node_modules/
+ai-service/venv/
+venv/
+**/__pycache__/
+*.py[cod]
+client/dist/
+coverage/
+*.log
+firebase-debug.log
+.firebase/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+**/service-account*.json
+**/credentials*.json
+*.pem
+*.key
+
+# Uploaded or private user data
+uploads/
+**/uploads/
+**/private-resumes/
+sample_resume.docx
+docs/sampleResume.pdf
+student.json
+
+# Local editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Unrelated local application
+my-clerk-app/

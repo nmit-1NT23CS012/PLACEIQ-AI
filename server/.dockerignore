@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+dist
+.env*
+.git
+service-account*.json
+credentials*.json
+*.pem
+*.key
+uploads
+private-resumes

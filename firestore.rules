@@ -1,0 +1,30 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isActiveUser() {
+      return request.auth != null
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('disabled', false) != true;
+    }
+
+    // Allow users to read and write their own data in the 'users' collection
+    match /users/{userId} {
+      allow read: if isActiveUser() && request.auth.uid == userId;
+      allow create: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.get('role', '') in ['student', 'recruiter']
+        && !request.resource.data.keys().hasAny(['disabled', 'statusUpdatedAt']);
+      allow update: if isActiveUser()
+        && request.auth.uid == userId
+        && request.resource.data.get('role', '') == resource.data.get('role', '')
+        && request.resource.data.get('disabled', false) == resource.data.get('disabled', false)
+        && request.resource.data.get('statusUpdatedAt', null) == resource.data.get('statusUpdatedAt', null);
+    }
+
+    // Default: allow read if authenticated, deny write
+    match /{document=**} {
+      allow read: if false;
+      allow write: if false;
+    }
+  }
+}
